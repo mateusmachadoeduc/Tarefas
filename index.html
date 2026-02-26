@@ -114,12 +114,66 @@
             color: var(--accent);
             margin-bottom: 20px;
         }
+        /* ESTILO DO FORMULÁRIO DE NOVA TAREFA */
+        .add-task-form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            background-color: var(--col-bg);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        .add-task-form input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #444;
+            background-color: var(--bg-color);
+            color: white;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .add-task-form select {
+            padding: 10px;
+            background-color: var(--bg-color);
+            color: white;
+            border: 1px solid #444;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .add-task-form button {
+            padding: 10px 20px;
+            background-color: var(--accent);
+            color: #121212;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .add-task-form button:hover {
+            opacity: 0.8;
+        }
     </style>
 </head>
 <body>
 
     <header>
         <h1>Tarefas Mateus Machado</h1>
+        <div class="add-task-form">
+        <input type="text" id="newTaskTitle" placeholder="Digite o nome da nova tarefa..." autocomplete="off">
+        <select id="newTaskPriority">
+            <option value="Alta">Alta</option>
+            <option value="Média" selected>Média</option>
+            <option value="Baixa">Baixa</option>
+        </select>
+        <button id="btnAddTask" onclick="createNewTask()">Adicionar</button>
+    </div>
     </header>
 
     <div id="loader">Carregando suas tarefas do Google Sheets...</div>
@@ -234,7 +288,60 @@
                 console.error("Erro ao atualizar:", err);
             });
         }
+        // Função para criar nova tarefa
+        function createNewTask() {
+            const titleInput = document.getElementById('newTaskTitle');
+            const priority = document.getElementById('newTaskPriority').value;
+            const title = titleInput.value.trim();
 
+            if (!title) {
+                alert("Por favor, digite um nome para a tarefa!");
+                return;
+            }
+
+            const btn = document.getElementById('btnAddTask');
+            btn.innerText = "Salvando...";
+            btn.disabled = true;
+
+            // Gera um ID único baseado na data e hora atual
+            const newId = Date.now(); 
+            const dateStr = new Date().toLocaleDateString('pt-BR');
+
+            // Envia para o Google Sheets
+            fetch(API_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    action: "add",
+                    id: newId,
+                    titulo: title,
+                    prioridade: priority,
+                    data_criacao: dateStr
+                })
+            }).then(() => {
+                // Como o Google demora uns segundos para processar, 
+                // nós criamos o card visualmente na tela na mesma hora para parecer instantâneo!
+                const card = document.createElement('div');
+                card.className = `card priority-${priority}`;
+                card.dataset.id = newId;
+                card.innerHTML = `
+                    <div class="card-title">${title}</div>
+                    <span class="badge" style="background-color: var(--${priority.toLowerCase()})">${priority}</span>
+                `;
+                
+                document.getElementById('Pendente').appendChild(card);
+                
+                // Limpa o formulário
+                titleInput.value = '';
+                btn.innerText = "Adicionar";
+                btn.disabled = false;
+            }).catch(err => {
+                console.error("Erro ao salvar:", err);
+                btn.innerText = "Adicionar";
+                btn.disabled = false;
+            });
+        }
         // Inicia o app
         loadTasks();
     </script>
