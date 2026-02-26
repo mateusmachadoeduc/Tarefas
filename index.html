@@ -15,6 +15,8 @@
             --text-main: #e0e0e0;
             --text-muted: #9e9e9e;
             --accent: #bb86fc;
+            
+            /* Novas cores pastéis mais confortáveis para os olhos */
             --alta: #e57373;   /* Vermelho suave */
             --media: #ffd54f;  /* Amarelo suave */
             --baixa: #81c784;  /* Verde suave */
@@ -26,94 +28,20 @@
             color: var(--text-main);
             margin: 0;
             padding: 20px;
-            font-size: 16px; /* Letras em tamanho médio/confortável */
+            font-size: 16px;
         }
 
         header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 20px;
         }
 
         header h1 {
             color: var(--accent);
             font-size: 2rem;
+            margin-bottom: 30px;
         }
 
-        /* ESTRUTURA DO KANBAN (COLUNAS) */
-        .board {
-            display: flex;
-            gap: 20px;
-            align-items: flex-start;
-            overflow-x: auto;
-            padding-bottom: 20px;
-        }
-
-        .column {
-            background-color: var(--col-bg);
-            border-radius: 8px;
-            min-width: 300px;
-            flex: 1;
-            padding: 15px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-        }
-
-        .column h2 {
-            font-size: 1.2rem;
-            margin-top: 0;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #333;
-            padding-bottom: 10px;
-            color: var(--text-muted);
-        }
-
-        .task-list {
-            min-height: 150px; /* Espaço vazio para soltar itens */
-        }
-
-        /* ESTILO DOS CARDS DE TAREFA */
-        .card {
-            background-color: var(--card-bg);
-            padding: 15px;
-            border-radius: 6px;
-            margin-bottom: 15px;
-            cursor: grab;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-            transition: transform 0.2s;
-            border-left: 4px solid #555;
-        }
-
-        .card:active {
-            cursor: grabbing;
-            transform: scale(1.02);
-        }
-
-        .card-title {
-            font-weight: 600;
-            margin-bottom: 10px;
-            font-size: 1.1rem;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 0.85rem;
-            font-weight: bold;
-            color: #121212;
-        }
-
-        /* Cores das Prioridades */
-        .priority-Alta { background-color: var(--alta); border-left-color: var(--alta); }
-        .priority-Média { background-color: var(--media); border-left-color: var(--media); }
-        .priority-Baixa { background-color: var(--baixa); border-left-color: var(--baixa); }
-
-        /* Loader */
-        #loader {
-            text-align: center;
-            font-size: 1.2rem;
-            color: var(--accent);
-            margin-bottom: 20px;
-        }
         /* ESTILO DO FORMULÁRIO DE NOVA TAREFA */
         .add-task-form {
             display: flex;
@@ -159,13 +87,101 @@
         .add-task-form button:hover {
             opacity: 0.8;
         }
+
+        /* ESTRUTURA DO KANBAN (COLUNAS) */
+        .board {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            overflow-x: auto;
+            padding-bottom: 20px;
+        }
+
+        .column {
+            background-color: var(--col-bg);
+            border-radius: 8px;
+            min-width: 300px;
+            flex: 1;
+            padding: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        .column h2 {
+            font-size: 1.2rem;
+            margin-top: 0;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+            color: var(--text-muted);
+        }
+
+        .task-list {
+            min-height: 150px; /* Espaço vazio para soltar itens */
+        }
+
+        /* ESTILO DOS CARDS DE TAREFA (NOVO DESIGN) */
+        .card {
+            background-color: var(--card-bg);
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            cursor: grab;
+            transition: transform 0.2s;
+            
+            /* Nova borda branca e sombra */
+            border: 1px solid rgba(255, 255, 255, 0.4); 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+            
+            /* Importante para a bolinha ficar no lugar certo */
+            position: relative; 
+            min-height: 50px; 
+        }
+
+        .card:active {
+            cursor: grabbing;
+            transform: scale(1.02);
+        }
+
+        .card-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            color: var(--text-main);
+            padding-right: 20px; /* Espaço para não encostar na bolinha */
+        }
+
+        /* Nova bolinha de prioridade */
+        .priority-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%; /* Faz virar um círculo */
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* Cores das bolinhas chamando as variáveis pastéis */
+        .dot-Alta { background-color: var(--alta); }
+        .dot-Média { background-color: var(--media); }
+        .dot-Baixa { background-color: var(--baixa); }
+
+        /* Loader */
+        #loader {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
 
     <header>
         <h1>Tarefas Mateus Machado</h1>
-        <div class="add-task-form">
+    </header>
+
+    <div class="add-task-form">
         <input type="text" id="newTaskTitle" placeholder="Digite o nome da nova tarefa..." autocomplete="off">
         <select id="newTaskPriority">
             <option value="Alta">Alta</option>
@@ -174,7 +190,6 @@
         </select>
         <button id="btnAddTask" onclick="createNewTask()">Adicionar</button>
     </div>
-    </header>
 
     <div id="loader">Carregando suas tarefas do Google Sheets...</div>
 
@@ -199,7 +214,7 @@
         // A sua URL da API gerada pelo Google Apps Script
         const API_URL = "https://script.google.com/macros/s/AKfycbw9hIynySB_n99bst8Prn6s9s0wHFOL6ogKxNUzlh9vIflaVStf5E00IyjUvVUuZ_E-/exec";
 
-        // Função para buscar os dados da planilha
+        // Busca os dados da planilha
         async function loadTasks() {
             try {
                 const response = await fetch(API_URL);
@@ -211,24 +226,22 @@
             }
         }
 
-        // Função para colocar cada tarefa na coluna correta
+        // Renderiza as tarefas nas colunas
         function renderTasks(tasks) {
-            // Limpa as colunas antes de renderizar
             document.getElementById('Pendente').innerHTML = '';
             document.getElementById('Executando').innerHTML = '';
             document.getElementById('Concluido').innerHTML = '';
 
             tasks.forEach(task => {
-                // Se a tarefa não tem status ou foi excluida, ignora
                 if(!task.status || task.status === "Excluido") return;
 
                 const card = document.createElement('div');
-                card.className = `card priority-${task.prioridade}`;
-                card.dataset.id = task.id; // Salva o ID da planilha no HTML
+                card.className = 'card';
+                card.dataset.id = task.id; 
                 
                 card.innerHTML = `
                     <div class="card-title">${task.titulo}</div>
-                    <span class="badge" style="background-color: var(--${task.prioridade.toLowerCase()})">${task.prioridade}</span>
+                    <div class="priority-dot dot-${task.prioridade}" title="Prioridade: ${task.prioridade}"></div>
                 `;
 
                 const column = document.getElementById(task.status);
@@ -237,30 +250,27 @@
                 }
             });
 
-            // Esconde o loader e mostra o Kanban
             document.getElementById('loader').style.display = 'none';
             document.getElementById('board').style.display = 'flex';
 
             initDragAndDrop();
         }
 
-        // Configura o Drag n Drop com SortableJS
+        // Configura o Drag n Drop
         function initDragAndDrop() {
             const columns = document.querySelectorAll('.task-list');
             
             columns.forEach(col => {
                 new Sortable(col, {
-                    group: 'kanban', // Permite arrastar entre colunas diferentes
+                    group: 'kanban',
                     animation: 150,
                     ghostClass: 'sortable-ghost',
                     
-                    // O que acontece quando você solta o card
                     onEnd: function (evt) {
-                        const itemEl = evt.item;  // O card arrastado
-                        const taskId = itemEl.dataset.id; // O ID da tarefa
-                        const newStatus = evt.to.id; // O ID da nova coluna (Pendente, Executando, Concluido)
+                        const itemEl = evt.item;
+                        const taskId = itemEl.dataset.id;
+                        const newStatus = evt.to.id; 
                         
-                        // Se mudou de coluna, envia para a planilha
                         if (evt.from !== evt.to) {
                             updateTaskStatus(taskId, newStatus);
                         }
@@ -269,26 +279,22 @@
             });
         }
 
-        // Função que envia a atualização para o Google Apps Script
+        // Atualiza status no Google Sheets
         function updateTaskStatus(id, newStatus) {
-            // Usamos mode: 'no-cors' para evitar bloqueios de segurança do navegador ao enviar dados para o Google
             fetch(API_URL, {
                 method: 'POST',
                 mode: 'no-cors',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     id: id,
                     status: newStatus
                 })
             }).then(() => {
                 console.log(`Tarefa ${id} movida para ${newStatus}`);
-            }).catch(err => {
-                console.error("Erro ao atualizar:", err);
-            });
+            }).catch(err => console.error("Erro ao atualizar:", err));
         }
-        // Função para criar nova tarefa
+
+        // Cria nova tarefa
         function createNewTask() {
             const titleInput = document.getElementById('newTaskTitle');
             const priority = document.getElementById('newTaskPriority').value;
@@ -303,11 +309,9 @@
             btn.innerText = "Salvando...";
             btn.disabled = true;
 
-            // Gera um ID único baseado na data e hora atual
             const newId = Date.now(); 
             const dateStr = new Date().toLocaleDateString('pt-BR');
 
-            // Envia para o Google Sheets
             fetch(API_URL, {
                 method: 'POST',
                 mode: 'no-cors',
@@ -320,19 +324,17 @@
                     data_criacao: dateStr
                 })
             }).then(() => {
-                // Como o Google demora uns segundos para processar, 
-                // nós criamos o card visualmente na tela na mesma hora para parecer instantâneo!
+                // Cria o card visualmente
                 const card = document.createElement('div');
-                card.className = `card priority-${priority}`;
+                card.className = 'card';
                 card.dataset.id = newId;
                 card.innerHTML = `
                     <div class="card-title">${title}</div>
-                    <span class="badge" style="background-color: var(--${priority.toLowerCase()})">${priority}</span>
+                    <div class="priority-dot dot-${priority}" title="Prioridade: ${priority}"></div>
                 `;
                 
                 document.getElementById('Pendente').appendChild(card);
                 
-                // Limpa o formulário
                 titleInput.value = '';
                 btn.innerText = "Adicionar";
                 btn.disabled = false;
@@ -342,6 +344,7 @@
                 btn.disabled = false;
             });
         }
+
         // Inicia o app
         loadTasks();
     </script>
