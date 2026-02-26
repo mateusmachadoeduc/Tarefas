@@ -173,6 +173,35 @@
             color: var(--accent);
             margin-bottom: 20px;
         }
+        /* =========================================
+           RESPONSIVIDADE PARA CELULARES (MOBILE UI)
+           ========================================= */
+        @media (max-width: 768px) {
+            /* 1. Ajusta o título para não ficar gigante */
+            header h1 {
+                font-size: 1.5rem;
+                margin-bottom: 20px;
+            }
+
+            /* 2. Empilha o formulário (caixa, seletor e botão um embaixo do outro) */
+            .add-task-form {
+                flex-direction: column;
+                padding: 12px;
+            }
+
+            /* 3. Empilha as colunas do Kanban verticalmente */
+            .board {
+                flex-direction: column;
+                gap: 15px; /* Reduz o espaço entre as colunas */
+            }
+
+            /* 4. Faz as colunas ocuparem 100% da largura da tela */
+            .column {
+                width: 100%;
+                min-width: unset; 
+                box-sizing: border-box; /* Impede que a coluna vaze da tela */
+            }
+        }
     </style>
 </head>
 <body>
